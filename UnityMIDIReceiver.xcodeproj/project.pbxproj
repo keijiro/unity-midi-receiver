@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		0F36E16517B7C2C100C7E6A5 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F36E16417B7C2C100C7E6A5 /* CoreFoundation.framework */; };
 		0F36E16B17B7C2C100C7E6A5 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0F36E16917B7C2C100C7E6A5 /* InfoPlist.strings */; };
+		0F36E17317B7C2FC00C7E6A5 /* UnityMIDIReceiver.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0F36E17217B7C2FC00C7E6A5 /* UnityMIDIReceiver.mm */; };
+		0F36E17517B7C47900C7E6A5 /* CoreMIDI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F36E17417B7C47900C7E6A5 /* CoreMIDI.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -17,6 +19,8 @@
 		0F36E16817B7C2C100C7E6A5 /* UnityMIDIReceiver-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "UnityMIDIReceiver-Info.plist"; sourceTree = "<group>"; };
 		0F36E16A17B7C2C100C7E6A5 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		0F36E16C17B7C2C100C7E6A5 /* UnityMIDIReceiver-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UnityMIDIReceiver-Prefix.pch"; sourceTree = "<group>"; };
+		0F36E17217B7C2FC00C7E6A5 /* UnityMIDIReceiver.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = UnityMIDIReceiver.mm; sourceTree = "<group>"; };
+		0F36E17417B7C47900C7E6A5 /* CoreMIDI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMIDI.framework; path = System/Library/Frameworks/CoreMIDI.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -24,6 +28,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0F36E17517B7C47900C7E6A5 /* CoreMIDI.framework in Frameworks */,
 				0F36E16517B7C2C100C7E6A5 /* CoreFoundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -51,6 +56,7 @@
 		0F36E16317B7C2C100C7E6A5 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0F36E17417B7C47900C7E6A5 /* CoreMIDI.framework */,
 				0F36E16417B7C2C100C7E6A5 /* CoreFoundation.framework */,
 			);
 			name = Frameworks;
@@ -59,6 +65,7 @@
 		0F36E16617B7C2C100C7E6A5 /* UnityMIDIReceiver */ = {
 			isa = PBXGroup;
 			children = (
+				0F36E17217B7C2FC00C7E6A5 /* UnityMIDIReceiver.mm */,
 				0F36E16717B7C2C100C7E6A5 /* Supporting Files */,
 			);
 			path = UnityMIDIReceiver;
@@ -136,6 +143,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0F36E17317B7C2FC00C7E6A5 /* UnityMIDIReceiver.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
