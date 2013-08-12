@@ -1,9 +1,8 @@
-#import <Foundation/Foundation.h>
 #import <CoreMIDI/CoreMIDI.h>
 
 static MIDIClientRef client;
 static MIDIPortRef inputPort;
-static NSMutableString *logText;
+static char logText[256 * 1024];
 
 static void MyReadProc(const MIDIPacketList *pktlist, void *readProcRefCon, void *srcConnRefCon)
 {
@@ -11,29 +10,27 @@ static void MyReadProc(const MIDIPacketList *pktlist, void *readProcRefCon, void
     for (int i = 0; i < pktlist->numPackets; i++) {
         const MIDIPacket *pkt = &pktlist->packet[i];
         for (int offs = 0; offs < pkt->length; offs++) {
-            [logText appendFormat:@" %02X", pkt->data[offs]];
+            char temp[32];
+            sprintf(temp, " %02X", pkt->data[offs]);
+            strcat(logText, temp);
         }
-        [logText appendString:@"\n"];
+        strcat(logText, "\n");
     }
 }
 
-char *UnityMIDIReceiver_GetLogText()
+extern "C" const char *UnityMIDIReceiver_GetLogText()
 {
-    const char *text = logText.UTF8String;
-    char *copiedText = static_cast<char*>(malloc(strlen(text)));
-    return strcpy(copiedText, text);
+    return logText;
 }
 
-void UnityMIDIReceiver_Initialize()
+extern "C" void UnityMIDIReceiver_Initialize()
 {
-    logText = [NSMutableString stringWithCapacity:64 * 1024];
-    
     // Create a MIDI client.
-    MIDIClientCreate((CFStringRef)@"MIDI Tester Client", nil, nil, &client);
+    MIDIClientCreate(CFSTR("MIDI Tester Client"), nil, nil, &client);
     
     // Create a MIDI port which covers all MIDI sources.
     ItemCount sourceCount = MIDIGetNumberOfSources();
-    MIDIInputPortCreate(client, (CFStringRef)@"MIDI Tester Input Port", MyReadProc, nil, &inputPort);
+    MIDIInputPortCreate(client, CFSTR("MIDI Tester Input Port"), MyReadProc, nil, &inputPort);
     
     // Enumerate the all MIDI sources.
     for (int i = 0; i < sourceCount; i++) {
@@ -44,9 +41,12 @@ void UnityMIDIReceiver_Initialize()
         CFStringRef nameStringRef;
         MIDIObjectGetStringProperty(source, kMIDIPropertyModel, &modelStringRef);
         MIDIObjectGetStringProperty(source, kMIDIPropertyName, &nameStringRef);
-        NSString *name = [NSString stringWithFormat:@"%@ (%@)", nameStringRef, modelStringRef];
         
-        [logText appendFormat:@"A MIDI source was found: %@\n", name];
+        strcat(logText, "A MIDI source was found: ");
+        CFStringGetCString(modelStringRef, logText + strlen(logText), sizeof(logText) - strlen(logText), kCFStringEncodingUTF8);
+        strcat(logText, " - ");
+        CFStringGetCString(nameStringRef, logText + strlen(logText), sizeof(logText) - strlen(logText), kCFStringEncodingUTF8);
+        strcat(logText, "\n");
         
         // Connect the MIDI source to the input port.
         MIDIPortConnectSource(inputPort, source, nil);

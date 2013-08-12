@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		0F36E16517B7C2C100C7E6A5 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F36E16417B7C2C100C7E6A5 /* CoreFoundation.framework */; };
 		0F36E16B17B7C2C100C7E6A5 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0F36E16917B7C2C100C7E6A5 /* InfoPlist.strings */; };
-		0F36E17317B7C2FC00C7E6A5 /* UnityMIDIReceiver.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0F36E17217B7C2FC00C7E6A5 /* UnityMIDIReceiver.mm */; };
+		0F36E17317B7C2FC00C7E6A5 /* UnityMIDIReceiver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0F36E17217B7C2FC00C7E6A5 /* UnityMIDIReceiver.cpp */; };
 		0F36E17517B7C47900C7E6A5 /* CoreMIDI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F36E17417B7C47900C7E6A5 /* CoreMIDI.framework */; };
 /* End PBXBuildFile section */
 
@@ -19,7 +19,7 @@
 		0F36E16817B7C2C100C7E6A5 /* UnityMIDIReceiver-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "UnityMIDIReceiver-Info.plist"; sourceTree = "<group>"; };
 		0F36E16A17B7C2C100C7E6A5 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		0F36E16C17B7C2C100C7E6A5 /* UnityMIDIReceiver-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UnityMIDIReceiver-Prefix.pch"; sourceTree = "<group>"; };
-		0F36E17217B7C2FC00C7E6A5 /* UnityMIDIReceiver.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = UnityMIDIReceiver.mm; sourceTree = "<group>"; };
+		0F36E17217B7C2FC00C7E6A5 /* UnityMIDIReceiver.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = UnityMIDIReceiver.cpp; sourceTree = "<group>"; };
 		0F36E17417B7C47900C7E6A5 /* CoreMIDI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMIDI.framework; path = System/Library/Frameworks/CoreMIDI.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -65,7 +65,7 @@
 		0F36E16617B7C2C100C7E6A5 /* UnityMIDIReceiver */ = {
 			isa = PBXGroup;
 			children = (
-				0F36E17217B7C2FC00C7E6A5 /* UnityMIDIReceiver.mm */,
+				0F36E17217B7C2FC00C7E6A5 /* UnityMIDIReceiver.cpp */,
 				0F36E16717B7C2C100C7E6A5 /* Supporting Files */,
 			);
 			path = UnityMIDIReceiver;
@@ -143,7 +143,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0F36E17317B7C2FC00C7E6A5 /* UnityMIDIReceiver.mm in Sources */,
+				0F36E17317B7C2FC00C7E6A5 /* UnityMIDIReceiver.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -165,10 +165,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
@@ -203,10 +203,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
@@ -276,6 +276,7 @@
 				0F36E17117B7C2C100C7E6A5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
