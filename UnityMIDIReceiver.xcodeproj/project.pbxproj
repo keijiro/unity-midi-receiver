@@ -21,6 +21,7 @@
 		0F36E16C17B7C2C100C7E6A5 /* UnityMIDIReceiver-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UnityMIDIReceiver-Prefix.pch"; sourceTree = "<group>"; };
 		0F36E17217B7C2FC00C7E6A5 /* UnityMIDIReceiver.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = UnityMIDIReceiver.cpp; sourceTree = "<group>"; };
 		0F36E17417B7C47900C7E6A5 /* CoreMIDI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMIDI.framework; path = System/Library/Frameworks/CoreMIDI.framework; sourceTree = SDKROOT; };
+		0FB84EAD17B8BFEE0095D9A6 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -39,6 +40,7 @@
 		0F36E15817B7C2C100C7E6A5 = {
 			isa = PBXGroup;
 			children = (
+				0FB84EAD17B8BFEE0095D9A6 /* README.md */,
 				0F36E16617B7C2C100C7E6A5 /* UnityMIDIReceiver */,
 				0F36E16317B7C2C100C7E6A5 /* Frameworks */,
 				0F36E16217B7C2C100C7E6A5 /* Products */,
