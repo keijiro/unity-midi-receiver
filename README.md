@@ -49,9 +49,9 @@ Incoming data is encoded in 64-bit integer value.
 You can extract the information about the source endpoint
 and a MIDI message.
 
-|   63 - 32   | 31 - 24 |    23 - 16    |    15 - 8     |    7 - 0    |
-| ----------- | ------- | ------------- | ------------- | ----------- |
-| Endpoint ID | (zero)  | MIDI data (2) | MIDI data (1) | MIDI status |
+| 63 - 56 |    55 - 48    |    47 - 40    |   39 - 32   |   31 - 0    |
+| ------- | ------------- | ------------- | ----------- | ----------- |
+| (zero)  | MIDI data (2) | MIDI data (1) | MIDI status | Endpoint ID |
 
 Development status
 ------------------
