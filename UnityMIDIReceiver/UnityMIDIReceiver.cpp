@@ -6,28 +6,24 @@
 namespace
 {
     // MIDI message structure.
-    // TODO: Use union.
-    struct Message
-    {
-        MIDIUniqueID source;
-        Byte status;
-        Byte data1;
-        Byte data2;
+    union Message {
+        uint64_t uint64Value;
         
-        Message(MIDIUniqueID source, Byte status, Byte data1, Byte data2)
-        :   source(source), status(status), data1(data1), data2(data2)
+        struct
         {
-        }
+            MIDIUniqueID source;
+            Byte status;
+            Byte data1;
+            Byte data2;
+        };
         
-        operator uint64_t() const
+        Message(MIDIUniqueID aSource, Byte aStatus, Byte aData1, Byte aData2)
+        :   source(aSource), status(aStatus), data1(aData1), data2(aData2)
         {
-            return
-                (static_cast<uint64_t>(source) & 0xffffffffULL) |
-                (static_cast<uint64_t>(status) << 32) |
-                (static_cast<uint64_t>(data1) << 40) |
-                (static_cast<uint64_t>(data2) << 48);
         }
     };
+    
+    static_assert(sizeof(Message) == sizeof(uint64_t), "Wrong data size.");
 
     // MIDI source ID array.
     MIDIUniqueID sourceIDs[256];
@@ -145,5 +141,5 @@ extern "C" uint64_t UnityMIDIReceiver_DequeueIncomingData()
     Message m = messageQueue.back();
     messageQueue.pop();
     
-    return static_cast<uint64_t>(m);
+    return m.uint64Value;
 }
