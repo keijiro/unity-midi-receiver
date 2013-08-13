@@ -8,7 +8,6 @@ which is connected to the host computer.
 Basic Usage
 -----------
 
-1. Call **UnityMIDIReceiver_Initialize** in Start function.
 1. In Update function, call **UnityMIDIReceiver_DequeueIncomingData**
    until it returns zero.
 1. Extract MIDI messages from incoming data,
@@ -19,11 +18,6 @@ For the detailed usage, see [a sample program]
 
 Function Reference
 ------------------
-
-#### UnityMIDIReceiver_Initialize
-
-Initializes/resets the plug-in.
-You can call this function as many as you need.
 
 #### UnityMIDIReceiver_CountEndpoints
 
