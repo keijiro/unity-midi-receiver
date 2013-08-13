@@ -37,8 +37,8 @@ namespace
     MIDIClientRef client;
     MIDIPortRef inputPort;
     
-    // Local functions.
-    void ReconnectAllSources();
+    // Reset-is-required flag.
+    bool resetIsRequired = true;
 }
 
 #pragma mark Core MIDI callback function
@@ -54,8 +54,8 @@ namespace
         auto addRemoveDetail = reinterpret_cast<const MIDIObjectAddRemoveNotification*>(message);
         if (addRemoveDetail->childType != kMIDIObjectType_Source) return;
         
-        // Update the MIDI client state.
-        ReconnectAllSources();
+        // Order to reset the plug-in.
+        resetIsRequired = true;
     }
     
     extern "C" void MyMIDIReadProc(const MIDIPacketList *pktlist, void *readProcRefCon, void *srcConnRefCon)
@@ -78,10 +78,16 @@ namespace
     
 namespace
 {
-    void ReconnectAllSources()
+    void ResetPluginIfRequired()
     {
+        if (!resetIsRequired) return;
+        
         // Dispose the old MIDI client if exists.
         if (client != 0) MIDIClientDispose(client);
+        
+        // Clear the message queue.
+        std::queue<Message> emptyQueue;
+        std::swap(messageQueue, emptyQueue);
         
         // Create a MIDI client.
         MIDIClientCreate(CFSTR("UnityMIDIReceiver Client"), MyMIDIStateChangedHander, nullptr, &client);
@@ -99,20 +105,17 @@ namespace
             MIDIObjectGetIntegerProperty(source, kMIDIPropertyUniqueID, &sourceIDs[i]);
             MIDIPortConnectSource(inputPort, source, &sourceIDs[i]);
         }
+        
+        resetIsRequired = false;
     }
 }
 
 #pragma mark Exposed functions
 
-// Initializes the plug-in.
-extern "C" void UnityMIDIReceiver_Initialize()
-{
-    ReconnectAllSources();
-}
-
 // Counts the number of endpoints.
 extern "C" int UnityMIDIReceiver_CountEndpoints()
 {
+    ResetPluginIfRequired();
     return static_cast<int>(MIDIGetNumberOfSources());
 }
 
@@ -125,6 +128,8 @@ extern "C" uint32_t UnityMIDIReceiver_GetEndpointIDAtIndex(int index)
 // Get the name of an endpoint.
 extern "C" const char* UnityMIDIReceiver_GetEndpointName(uint32_t id)
 {
+    ResetPluginIfRequired();
+
     MIDIObjectRef object;
     MIDIObjectType type;
     MIDIObjectFindByUniqueID(id, &object, &type);
