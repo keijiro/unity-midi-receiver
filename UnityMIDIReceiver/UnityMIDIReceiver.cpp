@@ -1,5 +1,6 @@
 #import <CoreMIDI/CoreMIDI.h>
 #include <queue>
+#include <mutex>
 
 #pragma mark Private classes
 
@@ -30,6 +31,7 @@ namespace
 
     // Incoming MIDI message queue.
     std::queue<Message> messageQueue;
+    std::mutex messageQueueLock;
 
     // Core MIDI objects.
     MIDIClientRef client;
@@ -60,11 +62,15 @@ namespace
     {
         auto sourceID = *reinterpret_cast<MIDIUniqueID*>(srcConnRefCon);
         
+        messageQueueLock.lock();
+        
         // Transform the packets into MIDI messages and push it to the message queue.
         for (int i = 0; i < pktlist->numPackets; i++) {
             const MIDIPacket& packet = pktlist->packet[i];
             messageQueue.push(Message(sourceID, packet.data[0], packet.data[1], packet.data[2]));
         }
+        
+        messageQueueLock.unlock();
     }
 }
 
@@ -137,9 +143,11 @@ extern "C" const char* UnityMIDIReceiver_GetEndpointName(uint32_t id)
 extern "C" uint64_t UnityMIDIReceiver_DequeueIncomingData()
 {
     if (messageQueue.empty()) return 0;
-
+    
+    messageQueueLock.lock();
     Message m = messageQueue.back();
     messageQueue.pop();
+    messageQueueLock.unlock();
     
     return m.uint64Value;
 }
