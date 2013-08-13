@@ -81,7 +81,7 @@ namespace
     void ReconnectAllSources()
     {
         // Dispose the old MIDI client if exists.
-        if (client != nullptr) MIDIClientDispose(client);
+        if (client != 0) MIDIClientDispose(client);
         
         // Create a MIDI client.
         MIDIClientCreate(CFSTR("UnityMIDIReceiver Client"), MyMIDIStateChangedHander, nullptr, &client);
@@ -113,7 +113,7 @@ extern "C" void UnityMIDIReceiver_Initialize()
 // Counts the number of endpoints.
 extern "C" int UnityMIDIReceiver_CountEndpoints()
 {
-    return MIDIGetNumberOfSources();
+    return static_cast<int>(MIDIGetNumberOfSources());
 }
 
 // Get the unique ID of an endpoint.
