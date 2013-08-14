@@ -152,7 +152,7 @@ extern "C" uint64_t UnityMIDIReceiver_DequeueIncomingData()
     if (messageQueue.empty()) return 0;
     
     messageQueueLock.lock();
-    Message m = messageQueue.back();
+    Message m = messageQueue.front();
     messageQueue.pop();
     messageQueueLock.unlock();
     
