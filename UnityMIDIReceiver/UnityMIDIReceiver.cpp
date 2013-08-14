@@ -14,13 +14,13 @@ namespace
         {
             MIDIUniqueID source;
             Byte status;
-            Byte data1;
-            Byte data2;
+            Byte data[2];
         };
         
-        Message(MIDIUniqueID aSource, Byte aStatus, Byte aData1, Byte aData2)
-        :   source(aSource), status(aStatus), data1(aData1), data2(aData2)
+        Message(MIDIUniqueID aSource, Byte aStatus)
+        :   source(aSource), status(aStatus)
         {
+            data[0] = data[1] = 0;
         }
     };
     
@@ -58,16 +58,24 @@ namespace
         resetIsRequired = true;
     }
     
-    extern "C" void MyMIDIReadProc(const MIDIPacketList *pktlist, void *readProcRefCon, void *srcConnRefCon)
+    extern "C" void MyMIDIReadProc(const MIDIPacketList *packetList, void *readProcRefCon, void *srcConnRefCon)
     {
         auto sourceID = *reinterpret_cast<MIDIUniqueID*>(srcConnRefCon);
         
         messageQueueLock.lock();
         
         // Transform the packets into MIDI messages and push it to the message queue.
-        for (int i = 0; i < pktlist->numPackets; i++) {
-            const MIDIPacket& packet = pktlist->packet[i];
-            messageQueue.push(Message(sourceID, packet.data[0], packet.data[1], packet.data[2]));
+        const MIDIPacket *packet = &packetList->packet[0];
+        for (int packetCount = 0; packetCount < packetList->numPackets; packetCount++) {
+            // Extract MIDI messages from the data stream.
+            for (int offs = 0; offs < packet->length;) {
+                Message message(sourceID, packet->data[offs++]);
+                for (int dc = 0; offs < packet->length && (packet->data[offs] < 0x80); dc++, offs++) {
+                    if (dc < 2) message.data[dc] = packet->data[offs];
+                }
+                messageQueue.push(message);
+            }
+            packet = MIDIPacketNext(packet);
         }
         
         messageQueueLock.unlock();
