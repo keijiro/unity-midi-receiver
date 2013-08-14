@@ -5,6 +5,15 @@ This is a minimal implementation of MIDI receiver plug-in for Unity.
 It can only handle incoming messages from MIDI devices
 which is connected to the host computer.
 
+Supported Platform
+------------------
+- Mac OS X 10.6 or later
+- Unity 4 Pro
+- Universal binary (runs on both x86 and x64)
+
+The Windows version is [here]
+(https://github.com/keijiro/unity-midi-receiver-windows).
+
 Basic Usage
 -----------
 
@@ -29,7 +38,9 @@ Returns the ID of the endpoint at a given index.
 
 #### UnityMIDIReceiver_GetEndpointName
 
-Retrieves the display name of the endpoint.
+Retrieves the display name of the endpoint. It returns a reference pointer
+to the name as a IntPtr value, and you can use Marshal.PtrToStringAnsi to
+convert it into C# string.
 
 #### UnityMIDIReceiver_DequeueIncomingData
 
@@ -46,12 +57,6 @@ and a MIDI message.
 | 63 - 56 |    55 - 48    |    47 - 40    |   39 - 32   |   31 - 0    |
 | ------- | ------------- | ------------- | ----------- | ----------- |
 | (zero)  | MIDI data (2) | MIDI data (1) | MIDI status | Endpoint ID |
-
-Development status
-------------------
-
-- It only supports Mac OS X at the moment.
-  Windows support is not ready yet.
 
 License
 -------
