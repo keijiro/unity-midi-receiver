@@ -147,6 +147,8 @@ extern "C" const char* UnityMIDIReceiver_GetEndpointName(uint32_t id)
 // Retrieve and erase an MIDI message data from the message queue.
 extern "C" uint64_t UnityMIDIReceiver_DequeueIncomingData()
 {
+    ResetPluginIfRequired();
+
     if (messageQueue.empty()) return 0;
     
     messageQueueLock.lock();
