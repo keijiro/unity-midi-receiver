@@ -29,7 +29,9 @@ Returns the ID of the endpoint at a given index.
 
 #### UnityMIDIReceiver_GetEndpointName
 
-Retrieves the display name of the endpoint.
+Retrieves the display name of the endpoint. It returns a reference pointer
+to the name as a IntPtr value, and you can use Marshal.PtrToStringAnsi to
+convert it into C# string.
 
 #### UnityMIDIReceiver_DequeueIncomingData
 
